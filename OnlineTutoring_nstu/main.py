@@ -3,7 +3,7 @@ from telebot import types
 from text import main_text
 import sqlite3
 
-token = '6900517132:AAFdbzR_RfjVyw8OzD6PMoGHZq_SwaPJ8qc'
+token = ''
 bot = telebot.TeleBot(token)
 
 
