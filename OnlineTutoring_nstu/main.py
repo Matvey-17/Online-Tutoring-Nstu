@@ -1,6 +1,6 @@
 import telebot
 from telebot import types
-from text import main_text
+# from text import main_text
 import sqlite3
 
 token = ''
@@ -51,7 +51,7 @@ def start(message):
             markup = types.InlineKeyboardMarkup()
             bt_1 = types.InlineKeyboardButton('Готов(a)', callback_data='ready_now')
             markup.add(bt_1)
-            bot.send_message(message.chat.id, f'{main_text}', reply_markup=markup, parse_mode='html')
+            bot.send_message(message.chat.id, f'{'''main_text'''}', reply_markup=markup, parse_mode='html')
             cursor.close()
             db.close()
         except sqlite3.IntegrityError:
