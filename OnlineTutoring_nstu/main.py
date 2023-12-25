@@ -1,6 +1,6 @@
 import telebot
 from telebot import types
-# from text import main_text
+from text import main_text
 import sqlite3
 
 token = ''
@@ -24,14 +24,18 @@ def start(message):
             cursor.close()
             db.close()
             bot.send_message(message.chat.id,
-                             '<code>Привет</code>! Рады, что готов/-а помочь 😊 Напиши <b>!вход</b>, чтобы выйти на смену и получать новых учеников, которым нужна помощь 🤯',
+                             '<code>Привет</code>! Рады, что готов/-а помочь 😊 Напиши '
+                             '<b>!вход</b>, чтобы выйти на смену и получать новых учеников, '
+                             'которым нужна помощь 🤯',
                              parse_mode='html')
             bot.register_next_step_handler(message, entry)
         except sqlite3.IntegrityError:
             cursor.close()
             db.close()
             bot.send_message(message.chat.id,
-                             '<code>Привет</code>! Рады, что готов/-а помочь 😊 Напиши <b>!вход</b>, чтобы выйти на смену и получать новых учеников, которым нужна помощь 🤯',
+                             '<code>Привет</code>! Рады, что готов/-а помочь 😊 Напиши '
+                             '<b>!вход</b>, чтобы выйти на смену и получать новых учеников, '
+                             'которым нужна помощь 🤯',
                              parse_mode='html')
             bot.register_next_step_handler(message, entry)
     else:
@@ -51,7 +55,7 @@ def start(message):
             markup = types.InlineKeyboardMarkup()
             bt_1 = types.InlineKeyboardButton('Готов(a)', callback_data='ready_now')
             markup.add(bt_1)
-            bot.send_message(message.chat.id, f'{'''main_text'''}', reply_markup=markup, parse_mode='html')
+            bot.send_message(message.chat.id, f'{main_text}', reply_markup=markup, parse_mode='html')
             cursor.close()
             db.close()
         except sqlite3.IntegrityError:
@@ -68,7 +72,8 @@ def callback(call):
         bt_1 = types.InlineKeyboardButton('Регистрация', callback_data='registration')
         markup.add(bt_1)
         bot.send_message(call.message.chat.id,
-                         '<code>Отлично</code>! Рады, что ты заинтересован/-а в этом 😉 Сейчас мы тебя <b>зарегистрируем</b> 👨🏻‍💻',
+                         '<code>Отлично</code>! Рады, что ты заинтересован/-а в этом 😉 '
+                         'Сейчас мы тебя <b>зарегистрируем</b> 👨🏻‍💻',
                          reply_markup=markup, parse_mode='html')
     elif call.data == 'registration':
         bot.send_message(call.message.chat.id, 'Введи своё <b>имя</b> 💬', parse_mode='html')
@@ -186,7 +191,8 @@ def register_surname(message):
     cursor.execute(f"SELECT surname FROM students WHERE id_tg = {message.chat.id}")
     surname_proverka = cursor.fetchone()[0]
     bot.send_message(message.chat.id,
-                     f'<code>Принято</code> ✅\n\n<b>Фамилия</b>: <code>{surname_proverka}</code>\nВведи свой <b>курс</b> (цифру!!!) 💬',
+                     f'<code>Принято</code> ✅\n\n<b>Фамилия</b>: <code>{surname_proverka}'
+                     f'</code>\nВведи свой <b>курс</b> (цифру!!!) 💬',
                      parse_mode='html')
     cursor.close()
     db.close()
@@ -210,7 +216,9 @@ def register_curs(message):
     bt_2 = types.InlineKeyboardButton('Изменить', callback_data='replace')
     markup.add(bt_1, bt_2)
     bot.send_message(message.chat.id,
-                     f'<code>Регистрация завершена успешно</code> ✅\n\n<b>Имя</b>: <code>{proverka[0]}</code>\n<b>Фамилия</b>: <code>{proverka[1]}</code>\n<b>Курс</b>: <code>{proverka[2]}</code>',
+                     f'<code>Регистрация завершена успешно</code> ✅\n\n<b>Имя</b>: '
+                     f'<code>{proverka[0]}</code>\n<b>Фамилия</b>: <code>{proverka[1]}</code>\n'
+                     f'<b>Курс</b>: <code>{proverka[2]}</code>',
                      parse_mode='html', reply_markup=markup)
     cursor.close()
     db.close()
@@ -225,16 +233,17 @@ def entry(message):
         cursor.close()
         db.close()
         bot.send_message(message.chat.id,
-                         '<b>Ты вышел/-а на смену</b>! Удачи 🍀\nДля выхода со смены необходимо ввести команду <b>!выход</b>',
+                         '<b>Ты вышел/-а на смену</b>! Удачи 🍀\n'
+                         'Для выхода со смены необходимо ввести команду <b>!выход</b>',
                          parse_mode='html')
-        bot.register_next_step_handler(message, exit)
+        bot.register_next_step_handler(message, exits)
     else:
         bot.send_message(message.chat.id, 'Неверная команда ❌ Для входа необходимо ввести команду <b>!вход</b>',
                          parse_mode='html')
         bot.register_next_step_handler(message, entry)
 
 
-def exit(message):
+def exits(message):
     if message.text == '!выход':
         db = sqlite3.connect("TutorsNstu.db")
         cursor = db.cursor()
