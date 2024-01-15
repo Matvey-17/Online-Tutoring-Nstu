@@ -2,6 +2,7 @@ import telebot
 from telebot import types
 from text import main_text
 import sqlite3
+from chats_id import arr_id
 
 token = ''
 bot = telebot.TeleBot(token)
@@ -9,7 +10,7 @@ bot = telebot.TeleBot(token)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    if message.chat.id == 777759367:
+    if message.chat.id in arr_id:
         db = sqlite3.connect("TutorsNstu.db")
         cursor = db.cursor()
         try:
